@@ -12,8 +12,8 @@ import java.util.HashMap;
  * @author Tomas Polesovsky
  */
 public class OISHeapOverflowAttack {
-	private static final int MAX_ARRAY_SIZE;
-	private static final int MAXIMUM_CAPACITY;
+	public static final int MAX_ARRAY_SIZE;
+	public static final int MAXIMUM_CAPACITY;
 	private static final int OBJECT_ARRAY_SIZE_TEMP_VAL = 1234;
 
 	static {

